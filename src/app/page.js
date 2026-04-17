@@ -1,65 +1,70 @@
-import Image from "next/image";
+import FriendsCard from "@/Components/FriendsCard/FriendsCard";
+import Stats from "@/Components/Stats/Stats";
+import Link from "next/link";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 
-export default function Home() {
+export default async function Home() {
+  const filePath = path.join(process.cwd(), "public", "Data", "friends.json");
+  const friendsData = JSON.parse(await readFile(filePath, "utf-8"));
+  // const res = await fetch("live-link/data.json", {
+  //   cache: "no-store",
+  // });
+  // const friendsData = await fetch("/Data/friends.json").then(res=>res.json());
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <main className="bg-slate-50">
+      <section>
+        <div className="hero min-h-[50vh]">
+          <div className="hero-content text-center max-w-11/12 mx-auto mt-10">
+            <div className="flex flex-col items-center justify-center">
+              <h1 className="text-5xl font-bold">
+                Friends to keep close in your life
+              </h1>
+              <p className="py-6 max-w-xl">
+                Your personal shelf of meaningful connections. Browse, tend, and
+                nurture the relationships that matter most.
+              </p>
+              <Link href={""}>
+                <button className="px-5 py-2.5 text-white text-lg font-medium rounded-md bg-[#244d3f] hover:bg-[#9bbdb1]-200 hover:text-[#9bbdb1]-700 border-2 border-[#9bbdb1]-300 hover:shadow hover:shadow-[#9bbdb1]-300 cursor-pointer">
+                  + Add a Friend
+                </button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="max-w-11/12 mx-auto my-10 grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <Stats title={"Total Friends"} value={friendsData.length} />
+        <Stats
+          title={"On Track"}
+          value={friendsData.filter((item) => item.status == "on-track").length}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+        <Stats
+          title={"Need Attention"}
+          value={
+            friendsData.filter((item) => item.days_since_contact > item.goal)
+              .length
+          }
+        />
+        <Stats
+          title={"Interactions This Month"}
+          value={
+            friendsData.filter((item) => item.days_since_contact < 30).length
+          }
+        />
+      </section>
+
+      <div className="divider max-w-11/12 mx-auto my-16"></div>
+
+      <section className="max-w-11/12 mx-auto my-10">
+        <h2 className="text-2xl text-black font-bold pb-5">Your Friends</h2>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 mb-24">
+          {friendsData.map((friendInfo) => (
+            <FriendsCard key={friendInfo.id} friendInfo={friendInfo} />
+          ))}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </section>
+    </main>
   );
 }

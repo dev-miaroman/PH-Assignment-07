@@ -1,0 +1,39 @@
+[
+  {
+    "id": 1,
+    "name": "Fatima Begum",
+    "picture": "https://randomuser.me/api/portraits/women/17.jpg",
+    "email": "fatima.begum@gmail.com",
+    "days_since_contact": 41,
+    "status": "overdue",
+    "tags": ["designer", "colleague"],
+    "bio": "Talented graphic designer from Uttara. We met at a creative workshop and collaborate on side projects. Loves Bengali culture.",
+    "goal": 21,
+    "next_due_date": "2026-03-23"
+  },
+  {
+    "id": 2,
+    "name": "Nusrat Jahan",
+    "picture": "https://randomuser.me/api/portraits/women/3.jpg",
+    "email": "nusrat.jahan@gmail.com",
+    "days_since_contact": 18,
+    "status": "overdue",
+    "tags": ["work"],
+    "bio": "Studied engineering at BUET. Now works at a software company in Dhaka. We used to grab tea at TSC regularly.",
+    "goal": 14,
+    "next_due_date": "2026-03-30"
+  },
+  {
+    "id": 3,
+    "name": "Raihan Ahmed",
+    "picture": "https://randomuser.me/api/portraits/men/11.jpg",
+    "email": "raihan.ahmed@gmail.com",
+    "days_since_contact": 7,
+    "status": "on-track",
+    "tags": ["childhood", "cricket"],
+    "bio": "Grew up together in Sylhet. Passionate about cricket and photography. Recently moved to Chittagong.",
+    "goal": 14,
+    "next_due_date": "2026-04-20"
+  }
+  
+]
