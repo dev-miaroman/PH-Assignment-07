@@ -57,7 +57,36 @@ const DataContextProvider = ({ children }) => {
     setFilteredData(newTimeLineData);
   };
 
-  
+  const manageFilter = (type) => {
+    if (type === "All") {
+      setFilteredData(timeLineData);
+    } else {
+      const filteredData = timeLineData.filter((item) => item.type === type);
+      setFilteredData(filteredData);
+    }
+  };
+  const manageSort = (sortType) => {
+      if (sortType === "Newest") {
+        const sortedData = [...filteredData].sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
+        setFilteredData(sortedData);
+      } else if (sortType === "Oldest") {
+        const sortedData = [...filteredData].sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
+        setFilteredData(sortedData);
+      } else {
+        setFilteredData(filteredData);
+      }
+  };
+
+  const manageSearch = (event) => {
+    const searchTerm = event.target.value.toLowerCase();
+    const searchedData = timeLineData.filter((item) => {
+      return (
+        item.name.toLowerCase().includes(searchTerm) ||
+        item.type.toLowerCase().includes(searchTerm)
+      );
+    });
+    setFilteredData(searchedData);
+  };
 
 
   const data = {
@@ -66,6 +95,9 @@ const DataContextProvider = ({ children }) => {
     manageVideo,
     timeLineData,
     filteredData,
+    manageFilter,
+    manageSort,
+    manageSearch
 
   };
 
